@@ -2,7 +2,7 @@ package com.example.customerservice.service.impl;
 
 import com.example.customerservice.client.TransactionClient;
 import com.example.customerservice.dto.CustomerDto;
-import com.example.customerservice.dto.ModelMapper;
+import com.example.customerservice.mapper.ModelMapper;
 import com.example.customerservice.dto.TransactionHistoryDto;
 import com.example.customerservice.model.Customer;
 import com.example.customerservice.repository.CustomerRepository;

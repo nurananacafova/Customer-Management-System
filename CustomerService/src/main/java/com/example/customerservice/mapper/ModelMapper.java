@@ -1,9 +1,8 @@
-package com.example.customerservice.dto;
+package com.example.customerservice.mapper;
 
+import com.example.customerservice.dto.CustomerDto;
 import com.example.customerservice.model.Customer;
 import org.mapstruct.Mapper;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ModelMapper {

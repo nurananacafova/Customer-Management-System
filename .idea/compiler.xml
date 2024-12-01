@@ -2,12 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ApiGateway" />
+        <module name="DiscoveryServer" />
+        <module name="ConfigServer" />
       </profile>
-      <profile name="Annotation profile for CustomerService" enabled="true">
+      <profile name="Annotation profile for TransactionService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -24,7 +28,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ApiGateway" options="-parameters" />
+      <module name="ConfigServer" options="-parameters" />
       <module name="CustomerService" options="-parameters" />
+      <module name="DiscoveryServer" options="-parameters" />
       <module name="TransactionService" options="-parameters" />
     </option>
   </component>

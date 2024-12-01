@@ -10,38 +10,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("transactions")
+@RequestMapping("/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionServiceImpl transactionService;
 
-    @PostMapping("/top-up")
-    public ResponseEntity<String> topUp(@RequestBody Long customerCIF, @RequestBody double amount) {
-        transactionService.topUp(customerCIF, amount);
+    @PostMapping("/top-up/{customerCif}/{amount}")
+    public ResponseEntity<String> topUp(@PathVariable Long customerCif, @PathVariable double amount) {
+        transactionService.topUp(customerCif, amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/purchase")
-    public ResponseEntity<String> purchase(@RequestBody Long customerCIF, @RequestBody double purchaseAmount) {
-        transactionService.purchase(customerCIF, purchaseAmount);
+    @PostMapping("/purchase/{customerCif}/{amount}")
+    public ResponseEntity<String> purchase(@PathVariable Long customerCif, @PathVariable double amount) {
+        transactionService.purchase(customerCif, amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/refund/{customerId}")
-    public ResponseEntity<String> refund(@PathVariable Long customerId) {
-        transactionService.refund(customerId);
+    @PostMapping("/refund/{customerCif}")
+    public ResponseEntity<String> refund(@PathVariable Long customerCif) {
+        transactionService.refund(customerCif);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @PostMapping("/transactions/{customerId}")
-//    public ResponseEntity<List<TransactionHistoryDto>> getTransactionHistoryByCustomer(@PathVariable Long customerId) {
-//        List<TransactionHistoryDto> transactionHistoryDtos = transactionService.getTransactionHistoryByCustomer(customerId);
-//        return new ResponseEntity<>(transactionHistoryDtos, HttpStatus.OK);
-//    }
-
-    @GetMapping("/transactions/customer/{cif}")
-    public ResponseEntity<List<TransactionHistoryDto>> getTransactionsByCustomer(@PathVariable Long cif) {
-        List<TransactionHistoryDto> transactionHistoryDtos = transactionService.getTransactionHistoryByCustomer(cif);
+    @GetMapping("/customer/{customerCif}")
+    public ResponseEntity<List<TransactionHistoryDto>> getTransactionsByCustomer(@PathVariable Long customerCif) {
+        List<TransactionHistoryDto> transactionHistoryDtos = transactionService.getTransactionHistoryByCustomer(customerCif);
         return new ResponseEntity<>(transactionHistoryDtos, HttpStatus.OK);
     }
 }

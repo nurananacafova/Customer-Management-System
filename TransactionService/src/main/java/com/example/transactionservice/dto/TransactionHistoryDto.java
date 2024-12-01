@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class TransactionHistoryDto {
     private Long id;
-    private Customer customer;
+    private Long customerCif;
     private OperationType operationType;
     private TransactionStatus transactionStatus;
     private Double amount;

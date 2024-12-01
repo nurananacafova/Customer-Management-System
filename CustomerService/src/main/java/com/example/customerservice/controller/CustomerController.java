@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("customers")
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerServiceImpl customerService;
@@ -24,21 +24,21 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getCustomerDetailsById(@PathVariable long id) {
-        CustomerDto customerDto = customerService.getCustomerDetailsById(id);
+    @GetMapping("/{customerCif}")
+    public ResponseEntity<CustomerDto> getCustomerDetailsById(@PathVariable long customerCif) {
+        CustomerDto customerDto = customerService.getCustomerDetailsById(customerCif);
         return new ResponseEntity<>(customerDto, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateBalance(@PathVariable Long id, @RequestBody Double newBalanc) {
-        customerService.updateBalance(id, newBalanc);
+    @PutMapping("/update/{customerCif}")
+    public ResponseEntity<String> updateBalance(@PathVariable Long customerCif, @RequestBody Double newBalance) {
+        customerService.updateBalance(customerCif, newBalance);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/transactions/{customerCif}")
     public ResponseEntity<List<TransactionHistoryDto>> getCustomerTransactions(@PathVariable Long customerCif) {
-        customerService.getCustomerTransactions(customerCif);
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<TransactionHistoryDto> transactionHistoryDto=customerService.getCustomerTransactions(customerCif);
+        return new ResponseEntity<>(transactionHistoryDto,HttpStatus.OK);
     }
 }

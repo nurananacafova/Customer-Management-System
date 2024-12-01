@@ -2,7 +2,7 @@ package com.example.transactionservice.service.impl;
 
 import com.example.transactionservice.client.CustomerClient;
 import com.example.transactionservice.dto.CustomerDto;
-import com.example.transactionservice.dto.ModelMapper;
+import com.example.transactionservice.mapper.ModelMapper;
 import com.example.transactionservice.dto.TransactionHistoryDto;
 import com.example.transactionservice.enums.OperationType;
 import com.example.transactionservice.enums.TransactionStatus;
@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

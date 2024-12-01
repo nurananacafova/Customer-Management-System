@@ -1,5 +1,6 @@
-package com.example.transactionservice.dto;
+package com.example.transactionservice.mapper;
 
+import com.example.transactionservice.dto.TransactionHistoryDto;
 import com.example.transactionservice.model.TransactionHistory;
 import org.mapstruct.Mapper;
 

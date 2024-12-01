@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "customer", url = "${customer.url}")
+@FeignClient(value = "customer-service", url = "${customer.url}")
 public interface CustomerClient {
-    @GetMapping("customers/{id}")
-    public CustomerDto getCustomerDetailsById(@PathVariable long id);
+    @GetMapping("/{customerCif}")
+    public CustomerDto getCustomerDetailsById(@PathVariable long customerCif);
 
-    @PutMapping("customers/update/{id}")
-    public ResponseEntity<String> updateBalance(@PathVariable Long id, @RequestBody Double newBalanc);
+    @PutMapping("/update/{customerCif}")
+    void updateBalance(@PathVariable Long customerCif, @RequestBody Double newBalance);
 }
