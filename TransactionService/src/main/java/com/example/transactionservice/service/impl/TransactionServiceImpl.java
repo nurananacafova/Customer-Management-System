@@ -26,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final CustomerClient customerClient;
 
     @Override
+    @Transactional
     public void topUp(Long customerCIF, double amount) {
         CustomerDto customer = customerClient.getCustomerDetailsById(customerCIF);
 //        if (customer == null) throw new CustomerNotFoundException("Customer not found with id: " + customerCIF);
@@ -36,12 +37,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional(noRollbackFor = InsufficientBalanceException.class)
     public void purchase(Long customerCIF, double purchaseAmount) {
         CustomerDto customer = customerClient.getCustomerDetailsById(customerCIF);
 
         if (customer == null) throw new CustomerNotFoundException("Customer not found with id: " + customerCIF);
 
-        if (customer.getBalance() < purchaseAmount) {
+        if (customer.getBalance() < purchaseAmount || customer.getBalance() <= 0) {
             saveTransaction(customerCIF, purchaseAmount, customer.getBalance(), customer.getBalance(), OperationType.PURCHASE, TransactionStatus.FAILED);
             throw new InsufficientBalanceException("Insufficient balance " + customer.getBalance());
         }
@@ -53,24 +55,30 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @Transactional
+    @Transactional(noRollbackFor = InsufficientBalanceException.class)
     public void refund(Long customerId, double refundAmount) {
+        CustomerDto customer = customerClient.getCustomerDetailsById(customerId);
+        if (customer == null) throw new CustomerNotFoundException("Customer not found with id: " + customerId);
+
         TransactionHistory lastValidPurchase = transactionHistoryRepository
                 .findTopByCustomerCifAndOperationTypeAndTransactionStatusOrderByCreateDateDesc(
                         customerId, OperationType.PURCHASE, TransactionStatus.SUCCESS).orElseThrow(() ->
                         new NoValidTransactionException("No valid purchase found to refund."));
 
-        CustomerDto customer = customerClient.getCustomerDetailsById(customerId);
-        if (customer == null) throw new CustomerNotFoundException("Customer not found with id: " + customerId);
-        if (refundAmount > lastValidPurchase.getTransactionAmount()) {
-            saveTransaction(customerId, refundAmount, customer.getBalance(), customer.getBalance(), OperationType.PURCHASE, TransactionStatus.FAILED);
-            throw new InsufficientBalanceException("Insufficient balance " + refundAmount);
+        double totalRefunded = transactionHistoryRepository.calculateTotalRefunded(customerId, lastValidPurchase.getCreateDate(), OperationType.REFUND, TransactionStatus.SUCCESS);
+        double refundableAmount = lastValidPurchase.getTransactionAmount() - totalRefunded;
+
+        if (refundAmount > refundableAmount) {
+            saveTransaction(customerId, refundAmount, customer.getBalance(), customer.getBalance(), OperationType.REFUND, TransactionStatus.FAILED);
+            throw new InsufficientBalanceException(
+                    "Refund operation failed with customer ID: " + customerId +
+                            "\nLast successful purchase balance: " + lastValidPurchase.getTransactionAmount() +
+                            "\nRequested refund amount is " + refundAmount);
         }
         double newBalance = customer.getBalance() + refundAmount;
         customerClient.updateBalance(customerId, newBalance);
 
         saveTransaction(customerId, refundAmount, customer.getBalance(), newBalance, OperationType.REFUND, TransactionStatus.SUCCESS);
-
 
     }
 
