@@ -43,7 +43,7 @@ This project is a microservices-based architecture for managing customers and tr
 
 * Refund:
 
-  Post request: http://localhost:8222/transactions/refund/{customerCif}
+  Post request: http://localhost:8222/transactions/refund/{customerCif}/{refundAmount}
 
 * Get Transaction History of Customer:
 
@@ -70,7 +70,7 @@ This project is a microservices-based architecture for managing customers and tr
 
 * Refund:
 
-  Post request: http://localhost:8081/transactions/refund/{customerCif}
+  Post request: http://localhost:8081/transactions/refund/{customerCif}/{refundAmount}
 
 * Get Transaction History of Customer:
 
@@ -85,3 +85,4 @@ Example JSON format for create new Student:
     "birthDate":"2000-01-01"
 }
 ```
+#### Discovery Server: http://localhost:8761

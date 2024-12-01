@@ -14,7 +14,9 @@ public class TransactionHistoryDto {
     private Long customerCif;
     private OperationType operationType;
     private TransactionStatus transactionStatus;
-    private Double amount;
+    private Double balanceBefore;
+    private Double balanceAfter;
+    private Double transactionAmount;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 }

@@ -27,9 +27,9 @@ public class TransactionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/refund/{customerCif}")
-    public ResponseEntity<String> refund(@PathVariable Long customerCif) {
-        transactionService.refund(customerCif);
+    @PostMapping("/refund/{customerCif}/{refundAmount}")
+    public ResponseEntity<String> refund(@PathVariable Long customerCif, @PathVariable double refundAmount) {
+        transactionService.refund(customerCif,refundAmount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

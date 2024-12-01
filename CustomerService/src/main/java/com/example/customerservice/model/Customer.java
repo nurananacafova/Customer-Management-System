@@ -20,13 +20,12 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
     private Long cif;
     private String firstName;
     private String lastName;
     private Date birthDate;
     private Double balance;
-//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<TransactionHistory> transactionHistories;
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate

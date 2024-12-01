@@ -27,8 +27,10 @@ eureka:
 customer:
   url: http://localhost:8080/customers
 #  url: http://localhost:8222/customers
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-  api-docs:
-    path: /v3/api-docs
+
+
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+#  api-docs:
+#    path: /v3/api-docs

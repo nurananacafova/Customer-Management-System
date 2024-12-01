@@ -2,6 +2,7 @@ package com.example.customerservice.service.impl;
 
 import com.example.customerservice.client.TransactionClient;
 import com.example.customerservice.dto.CustomerDto;
+import com.example.customerservice.exception.CustomerNotFoundException;
 import com.example.customerservice.mapper.ModelMapper;
 import com.example.customerservice.dto.TransactionHistoryDto;
 import com.example.customerservice.model.Customer;
@@ -31,22 +32,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto getCustomerDetailsById(long id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer not found"));
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: "+id));
         return modelMapper.toDto(customer);
     }
 
     @Override
     public void updateBalance(Long customerCif, Double newBalance) {
         Customer customer = customerRepository.findById(customerCif)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: "+customerCif));
         customer.setBalance(newBalance);
         customerRepository.save(customer);
     }
 
     @Override
     public List<TransactionHistoryDto> getCustomerTransactions(Long customerCif) {
-//        Customer customer = customerRepository.findById(customerCif)
-//                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        customerRepository.findById(customerCif)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: "+customerCif));
         return transactionClient.getTransactionsByCustomer(customerCif);
     }
 }

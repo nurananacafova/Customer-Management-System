@@ -21,15 +21,14 @@ public class TransactionHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "customer_id")
-//    private Customer customer;
     private Long customerCif;
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
     @Enumerated(EnumType.STRING)
     private TransactionStatus transactionStatus;
-    private Double amount;
+    private Double balanceBefore;
+    private Double balanceAfter;
+    private Double transactionAmount;
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate

@@ -10,7 +10,7 @@ public interface TransactionService {
 
      void purchase(Long customerCIF, double purchaseAmount);
 
-     void refund(Long customerId);
+     void refund(Long customerId, double refundAmount);
 
      List<TransactionHistoryDto>getTransactionHistoryByCustomer(Long customerId);
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @FeignClient(value = "transaction-service", url = "${transaction.url}")
 public interface TransactionClient {
     @GetMapping("/customer/{customerCif}")
-    public List<TransactionHistoryDto> getTransactionsByCustomer(@PathVariable Long customerCif);
+     List<TransactionHistoryDto> getTransactionsByCustomer(@PathVariable Long customerCif);
 }
