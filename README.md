@@ -77,7 +77,7 @@ This project is a microservices-based architecture for managing customers and tr
   Get request: http://localhost:8081/transactions/customer/{customerCif}
 
 ---
-Example JSON format for create new Student:
+Example JSON format for create new Customer:
 ```
 {
     "firstName":"John",
